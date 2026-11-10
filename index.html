@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Structure Inspector</title>
+<style>
+  :root { color-scheme: dark; }
+  body { margin: 0; min-height: 100vh; display: grid; place-items: center; background: #0b1220; color: #cbd5e1; font: 15px/1.5 system-ui, sans-serif; text-align: center; padding: 16px; box-sizing: border-box; }
+  .dot { width: 10px; height: 10px; border-radius: 50%; background: #22d3ee; display: inline-block; margin-right: 8px; animation: p 1s infinite alternate; }
+  @keyframes p { to { opacity: .2; } }
+</style>
+</head>
+<body>
+<div id="msg"><span class="dot"></span>Opening Structure Inspector…</div>
+<script>
+  // The app runs on a Cloudflare tunnel whose address changes when it restarts; link.txt always
+  // holds the current one (updated automatically). The query string skips GitHub's 10-minute cache.
+  fetch('link.txt?t=' + Date.now(), { cache: 'no-store' })
+    .then(function (r) { return r.text(); })
+    .then(function (u) {
+      u = u.trim();
+      if (!/^https:\/\/[a-z0-9-]+\.trycloudflare\.com$/.test(u)) throw new Error('bad link');
+      location.replace(u + location.search + location.hash);
+    })
+    .catch(function () {
+      document.getElementById('msg').textContent = 'Structure Inspector is offline right now (the server PC is off). Please try again later.';
+    });
+</script>
+</body>
+</html>
