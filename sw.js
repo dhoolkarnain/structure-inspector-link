@@ -14,7 +14,7 @@ self.addEventListener('fetch', (e) => {
   const scope = new URL(self.registration.scope).pathname;
   const path = url.pathname;
   if (path.endsWith('link.txt')) return; // always fresh: the server's current address
-  const cacheFirst = path.includes('/assets/') || path.includes('/models/');
+  const cacheFirst = path.includes('/assets/') || path.includes('/models/') || path.includes('/draco/');
   e.respondWith(
     caches.open(CACHE).then(async (cache) => {
       if (cacheFirst) {
