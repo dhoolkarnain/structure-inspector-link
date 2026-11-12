@@ -1,1 +1,1 @@
-https://infinite-visitors-litigation-myrtle.trycloudflare.com
+https://api.trycloudflare.com
