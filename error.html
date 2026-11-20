@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Structure Inspector</title>
+<style>
+  :root{color-scheme:dark}
+  body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;background:#0c1017;color:#e2e8f0;font:16px/1.5 system-ui,sans-serif;padding:24px;box-sizing:border-box}
+  main{max-width:22rem;text-align:center}
+  .ic{width:56px;height:56px;margin:0 auto 16px;border-radius:16px;background:#1e293b;display:flex;align-items:center;justify-content:center;font-size:28px}
+  h1{font-size:1.25rem;margin:0 0 8px} p{margin:0 0 20px;color:#94a3b8}
+  button{height:44px;padding:0 24px;border:0;border-radius:12px;background:#06b6d4;color:#042f2e;font-weight:700;font-size:1rem}
+  small{display:block;margin-top:16px;color:#64748b}
+</style></head><body><main>
+<div class="ic" aria-hidden="true">&#128246;</div>
+<h1>Can't reach the server</h1>
+<p>Check your internet connection. The app will keep trying and open by itself when it is back.</p>
+<button id="retry">Try again</button>
+<small id="s">Trying again every 10 seconds</small>
+</main>
+<script>
+  var SERVER = 'https://d14j9svs5e8skx.cloudfront.net/';
+  function go(){ var s=document.getElementById('s'); s.textContent='Trying...';
+    fetch(SERVER + 'api/billing/plans', {cache:'no-store', mode:'no-cors'}).then(function(){ location.replace(SERVER); })
+      .catch(function(){ s.textContent='Still offline. Trying again every 10 seconds'; }); }
+  document.getElementById('retry').onclick = go;
+  setInterval(go, 10000);
+</script></body></html>
