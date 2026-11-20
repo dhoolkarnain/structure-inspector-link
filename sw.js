@@ -5,9 +5,11 @@
  * - the page itself: network first, cached copy when offline
  * Server data (/api on the tunnel) is never cached here.
  */
-const CACHE = 'si-app-v1';
+const CACHE = 'si-app-v2'; // v2: the server moved from the Cloudflare tunnel to AWS; older cached app code only knew tunnel addresses
 self.addEventListener('install', () => self.skipWaiting());
-self.addEventListener('activate', (e) => e.waitUntil(self.clients.claim()));
+self.addEventListener('activate', (e) => e.waitUntil(
+  caches.keys().then((keys) => Promise.all(keys.filter((k) => k !== CACHE).map((k) => caches.delete(k)))).then(() => self.clients.claim())
+));
 self.addEventListener('fetch', (e) => {
   const url = new URL(e.request.url);
   if (e.request.method !== 'GET' || url.origin !== self.location.origin) return;
